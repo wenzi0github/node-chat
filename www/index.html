@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link rel="stylesheet" type="text/css" href="./css/reset.css" >
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body>
+    <div class="main clearfix">
+        <div class="chat fl">
+            <div class="record">
+                <div class="list clearfix"></div>
+            </div>
+            <div class="manager clearfix">
+                <div class="font cc">
+                    <span>A</span>
+                    <div class="fontlist clearfix">
+                        <div class="fontcolor cc">
+                            <input type="color" id="fontcolor">
+                        </div>
+                        <div class="fontsize cc">
+                            <select id="fontsize">
+                                <option value="12px">12px</option>
+                                <option value="14px" selected="true">14px</option>
+                                <option value="16px">16px</option>
+                                <option value="18px">18px</option>
+                                <option value="20px">20px</option>
+                                <option value="22px">22px</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="imgup cc">
+                    <input id="fileupload" type="file" name="mypic">
+                </div>
+            </div>
+            <div class="send">
+                <textarea name="" id="msg"></textarea>
+                <input type="button" class="btn" id="send" value="发送">
+            </div>
+        </div>
+        <div class="user fr">
+            <div>在线人数：<span id="num">0</span></div>
+            <div class="list">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+    <div class="layer">
+        <div class="content" id="content">
+            <div class="info" style="display:none;">
+                connecting server...
+            </div>
+            <div class="nickform" style="display:block;" >
+                <div>
+                    <p>请选择您的头像</p>
+                    <ul class="portrait clearfix">
+                        <li class="selected"><img src="./images/1.jpg" alt="pic"></li>
+                        <li><img src="./images/2.jpg" alt="pic"></li>
+                        <li><img src="./images/3.jpg" alt="pic"></li>
+                        <li><img src="./images/4.jpg" alt="pic"></li>
+                        <li><img src="./images/5.jpg" alt="pic"></li>
+                        <li><img src="./images/6.jpg" alt="pic"></li>
+                    </ul>
+                </div>
+                <form action="" onSubmit="return Chat.login(); return false;">
+                    <div>
+                        <p id="tips">请输入你的昵称：</p>
+                        <p>
+                            <input type="text" autofocus="true" id="nickname">
+                            <input type="submit"  id="nickok" value="OK">
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="./js/wchat.js"></script>
+<script>
+/*
+1. socket.io
+2. emit创建并发送事件
+3. on接收并使用该事件
+4. npm init 引导创建package.json文件
+    npm install 直接运行会按照package.json里的进行安装
+    npm install 包名  集成包安装到当前目录
+    npm install 包名 -g 集成包安装到全局
+    npm update <包名> 更新集成包，或更新package.json中所有的集成包
+
+*/
+// http://www.cnblogs.com/Wayou/p/hichat_built_with_nodejs_socket.html
+
+</script>
+</html>

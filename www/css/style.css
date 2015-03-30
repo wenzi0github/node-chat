@@ -1,0 +1,231 @@
+.main{
+    margin: 20px auto; 
+    width: 680px; 
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #F9F9F9;
+}
+.record{
+    background: #FDFCFC;
+    padding: 6px;
+    border: 1px solid #ddd;
+    height: 440px;
+    overflow: auto;
+}
+
+.record .notice{
+	background: #ccc;
+  	padding: 2px 10px;
+  	border-radius: 2px;
+  	width: 168px;
+  	margin: 6px auto;
+  	text-align: center;
+}
+.record .tips{
+    color: #ff0000;
+}
+.record .tips div{
+    float: right;
+    border: 1px solid #ff0000;
+    padding: 4px;
+}
+.record .tips em{
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    line-height: 15px;
+    margin-right: 4px;
+}
+.record .item{
+    margin: 10px 0;
+}
+.chat{
+    width: 550px;
+}
+.chat .pic img{
+    width: 50px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.chat .info_msg{
+    margin: 0 30px 0 60px;
+    text-align: left;
+}
+.chat .info_msg .info .name{
+	margin-right: 6px;
+}
+.chat .info_msg .msg{
+    display: inline-block;
+    margin: 2px 0;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 15px;
+}
+.chat .info_msg .msg img{
+    max-width: 260px;
+}
+.chat .louzhu .pic{
+    float: right;
+}
+.chat .louzhu .info_msg{
+    margin: 0 60px 0 30px;
+    text-align: right;
+}
+.chat .louzhu .msg{
+    text-align: left;
+    background: #F5F5F5;
+}
+.chat .manager{
+    padding: 5px 3px;
+}
+.chat .manager .cc{
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    cursor: pointer;
+    height: 25px;
+    float: left;
+    margin-right: 4px;
+}
+.chat .manager .font{
+    position: relative;
+}
+.chat .manager .font span{
+    display: block;
+    width: 23px;
+    height: 23px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 23px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.chat .manager .font span:hover{
+    border-color: #aaa;
+}
+.chat .manager .font .selected{
+    background: #ddd;
+    border-color: #aaa;
+}
+.chat .manager .fontlist{
+  position: absolute;
+  top: -37px;
+  left: -2px;
+  background: #eee;
+  padding: 3px;
+  width: 542px;
+  display: none;
+}
+.chat .imgup{
+    height: 25px;
+    width: 25px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 4px;
+    background: url(../images/icon.jpg) -209px -242px no-repeat;
+}
+.chat .imgup input {
+    position: absolute;
+    top: 0; 
+    right: 0;
+    margin: 0;
+    border: solid transparent;
+    opacity: 0;
+    filter:alpha(opacity=0);
+    cursor: pointer;
+}
+.chat .manager .fontsize select{
+    height: 25px;
+}
+.chat .send textarea{
+    width: 100%;
+    height: 108px;
+    resize: none;
+    border: 1px solid #eee;
+    font-size: 14px;
+}
+.chat .send .btn{
+    padding: 2px 18px;
+    font-size: 14px;
+    float: right;
+}
+
+.user{
+    width: 120px;
+}
+.user .list{
+    background: #FDFCFC;
+    padding: 4px;
+}
+.user li{
+    margin: 2px 0;
+}
+.user li a{
+    color: #6B617E;
+    font-size: 15px;
+}
+.user li img{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    margin: 2px 3px 0 0;
+    float: left;
+}
+.user li a:hover{
+    color: #ec2b8c;
+    text-decoration: none;
+}
+
+.layer{
+	position: fixed;
+  	top: 0;
+  	left: 0;
+  	width: 100%;
+  	height: 100%;
+  	background: #333;
+  	opacity: 0.7;
+}
+.layer .content{
+	position: absolute;
+    width: 500px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -100px;
+  	line-height: 100px;
+  	color: #fff;
+  	font-size: 24px;
+  	text-align: center;
+}
+.layer .content .nickform{
+	display: none;
+	line-height: 50px;
+  	font-size: 18px;
+}
+.layer .portrait{
+    width: 384px;
+    margin: 0 auto;
+}
+.layer .nickform li{
+    float: left;
+    margin-right: 10px;
+    border: 2px solid #eee;
+}
+.layer .nickform li:hover{
+    border: 2px solid #ec2b8c;
+}
+.layer .nickform .selected{
+    border: 2px solid #ec2b8c;
+}
+.layer .nickform img{
+    width: 50px;
+    height: 50px;
+    display: block;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "node-web-chat",
+  "version": "1.0.0",
+  "description": "node-socket.io实现一个web即时聊天功能",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "socket.io": "^1.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "web",
+    "chat",
+    "wenzi"
+  ],
+  "author": "shaobing",
+  "license": "MIT"
+}
