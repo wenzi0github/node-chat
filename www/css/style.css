@@ -196,7 +196,7 @@
     width: 500px;
     height: 300px;
     left: 50%;
-    top: 50%;
+    top: 40%;
     margin-left: -250px;
     margin-top: -100px;
   	line-height: 100px;
@@ -216,6 +216,7 @@
 .layer .nickform li{
     float: left;
     margin-right: 10px;
+    margin-bottom: 10px;
     border: 2px solid #eee;
 }
 .layer .nickform li:hover{

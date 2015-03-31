@@ -94,7 +94,9 @@ $(function(){
 
     $("#fontsize").on("change", function(){
         $('.chat .send textarea').css({"font-size":$(this).val()});
-    })
+    });
+
+    Chat.formImg(12);
 });
 
 window.onbeforeunload = function(event){
@@ -172,5 +174,18 @@ var Chat = {
         var $img = $(".portrait .selected").find("img");
         socket.emit("login", {nickname:nickname, img:$img.attr("src")});
         return false;
+    },
+
+    formImg:function(n){
+        var html = '',
+            n = n || 6;
+        for(var i=0; i<n; i++){
+            if(i==0){
+                html += '<li class="selected"><img src="./images/'+i+'.jpg" alt="pic"></li>';
+            }else{
+                html += '<li><img src="./images/'+i+'.jpg" alt="pic"></li>';
+            }
+        }
+        $(".portrait").html(html);
     }
 }
