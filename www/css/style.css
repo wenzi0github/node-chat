@@ -5,6 +5,57 @@
     padding: 10px;
     background: #F9F9F9;
 }
+.main .touser{
+    float: left;
+    width: 120px;
+    display: none;
+}
+.touser .item{
+    width: 103px;
+    padding: 5px;
+    border-radius: 2px;
+    font-size: 16px;
+    border: 1px solid #F9F9F9;
+    background: #F9F9F9;
+    margin-bottom: 4px;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.touser .item:hover{
+    border: 1px solid #ccc;
+    background: #fafafa;
+}
+.touser .item:hover .close{
+    display: block;
+}
+.touser .close{
+    float: right;
+    width: 20px;
+    height: 20px;
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    text-decoration: none;
+    display: none;
+}
+.touser .current{
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.touser .current:hover{
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.touser .current .close{
+    display: block;
+}
+
+.touser .close:hover{
+    color: #ec2b8c;
+}
 .record{
     background: #FDFCFC;
     padding: 6px;
@@ -182,6 +233,14 @@
     text-decoration: none;
 }
 
+.tomore{
+    width: 800px;
+}
+
+.tomore .mchat{
+    width: 670px;
+}
+
 .layer{
 	position: fixed;
   	top: 0;
@@ -190,6 +249,7 @@
   	height: 100%;
   	background: #333;
   	opacity: 0.7;
+    display: block;
 }
 .layer .content{
 	position: absolute;

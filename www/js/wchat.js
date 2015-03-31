@@ -21,7 +21,7 @@ socket.on("system", function(obj){
 
         $(".record").find('.list').append('<div class="notice">'+obj.nickname+' 已加入</div>');
         for(var key in user){
-            html += '<li><a href="javascript:;" class="clearfix" userid="'+user[key].uid+'"><img src="'+user[key].img+'" alt="pic">'+user[key].nickname+'</a></li>';
+            html += '<li><a href="javascript:;" class="mtouser clearfix" userid="'+user[key].uid+'" nickname="'+user[key].nickname+'"><img src="'+user[key].img+'" alt="pic">'+user[key].nickname+'</a></li>';
         }
         $(".user").find('ul').html(html);
         $("#num").html(obj.len);
@@ -96,6 +96,59 @@ $(function(){
         $('.chat .send textarea').css({"font-size":$(this).val()});
     });
 
+    // 
+    $(".main").delegate(".mtouser", "click", function(event){
+        var $touser = $('.touser'),
+            $this = $(this),
+            uid = $this.attr("userid"),
+            nickname = $this.attr("nickname");
+
+        // 不是用户自己，且侧边栏没有该用户
+        if(uid!==Chat.userid){
+            $touser.find('.item').removeClass('current');
+            if($touser.find('span[userid='+uid+']').length===0){
+                $touser.prepend('<div class="item current"><span userid="'+uid+'">'+nickname+'</span><a href="javascript:;" class="close">x</a></div>');
+                if($('.record_'+uid).length){
+                    ToMore.show(uid);
+                }else{
+                    $('.chat').prepend('<div class="record record_'+uid+'"><div class="list clearfix"></div></div>');
+                }
+                ToMore.show(uid);
+            }
+        }
+    
+        event.preventDefault();
+    });
+
+    $(".touser").delegate(".item", "click", function(){
+        $(this).addClass( 'current' ).siblings().removeClass('current');
+        var uid = $(this).find('span').attr("userid");
+        ToMore.show(uid);
+    })
+
+    $(".touser").delegate(".close", "click", function(event){
+        var $touser = $('.touser'),
+            $this = $(this),
+            $item = $this.parent(),
+            uid = $item.find('span').attr('userid'),
+            showuid = '',
+            $first = null;
+
+        $item.remove();
+        $('.record_'+uid).hide();
+
+        $first = $(".touser").find(".item:first");
+        showuid = $first.addClass( 'current' ).find('span').attr('userid');
+        console.log(showuid);
+        ToMore.show(showuid);
+
+        if($touser.find('.item').length===1){
+            ToMore.less();
+        }
+        event.stopPropagation();
+    })
+
+    // 加载用户可选择的头像
     Chat.formImg(12);
 });
 
@@ -111,7 +164,7 @@ var Chat = {
     // 聊天内容
     content : '<div class="item clearfix">'+
                 '<div class="pic fl">'+
-                    '<img src="" alt="pic">'+
+                    '<a href="javascript:;" class="mtouser"><img src="" alt="pic"></a>'+
                 '</div>'+
                 '<div class="info_msg">'+
                     '<div class="info"><span class="name"></span><span class="timer"></span></div>'+
@@ -121,6 +174,7 @@ var Chat = {
     $tips : $('<div class="tips clearfix"><div><em>!</em><span></span></div></div>'),
 
     userid : null, // 当前用户
+    toid : 'group',// 发送到的用户
 
     warning : function(string){
         this.$tips.find('span').html(string);
@@ -151,8 +205,9 @@ var Chat = {
             $content.find('.name').html(info.nickname);
             $content.find('.timer').html(info.time);
             $content.find('.msg').html(info.msg);
+            $content.find('.mtouser').attr({userid:info.uid, nickname:info.nickname});
 
-            $(".record").find('.list').append($content);
+            $(".record_"+this.toid).find('.list').append($content);
             this.scroll();
             $("#msg").val("").focus();
         }else{
@@ -187,5 +242,32 @@ var Chat = {
             }
         }
         $(".portrait").html(html);
+    }
+}
+
+var ToMore = {
+    less : function(){
+        $('.main').removeClass( 'tomore' );
+        $('.chat').removeClass( 'mchat' );
+        $('.touser').hide();
+        $('.user').show();
+    },
+
+    show : function(uid){
+        $('.main').addClass( 'tomore' );
+        $('.record').hide();
+        $('.record_'+uid).show();
+        $('.touser').show();
+        Chat.toid = uid;
+
+        
+
+        if(uid=='group'){
+            $('.chat').removeClass( 'mchat' );
+            $('.user').show();
+        }else{
+            $('.chat').addClass( 'mchat' );
+            $('.user').hide();
+        }
     }
 }
