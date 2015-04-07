@@ -51,9 +51,9 @@ io.on('connection', function (socket) {
             var info = User.getInfo(userid);
             info.msg = '<div style="font-size:'+obj.size+'; color:'+obj.color+'">'+obj.msg+'</div>';
             info.time = hour+':'+minute;
-            io.sockets.emit('msg', { status:"success", info:info});
+            socket.broadcast.emit('msg', { status:"success", info:info});
         }else{
-            io.sockets.emit('msg', { status:"failure" });
+            socket.broadcast.emit('msg', { status:"failure" });
         }
         
     });

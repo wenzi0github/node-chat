@@ -17,13 +17,15 @@ socket.on("loginSuccess", function(userid){
 socket.on("system", function(obj){
     if(obj.type=='login'){
         var html = '',
+            $ul = $(".user").find('ul'),
             user = obj.user;
 
         $(".record").find('.list').append('<div class="notice">'+obj.nickname+' 已加入</div>');
         for(var key in user){
             html += '<li><a href="javascript:;" class="clearfix" userid="'+user[key].uid+'"><img src="'+user[key].img+'" alt="pic">'+user[key].nickname+'</a></li>';
         }
-        $(".user").find('ul').html(html);
+        $ul.html(html);
+        $ul.prepend($ul.find('a[userid='+Chat.userid+']').parent().remove());
         $("#num").html(obj.len);
     }else if(obj.type==='logout'){
         $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 已退出</div>');
@@ -55,7 +57,8 @@ $(function(){
             $("#msg").val(msg+"\r\n");
         }else if(!e.ctrlKey && code == 13){
             Chat.send(msg);
-        } 
+            e.preventDefault(); 
+        }
     });
 
     $(".font span").on("click", function(){
@@ -136,7 +139,12 @@ var Chat = {
         if(this.userid==null){
             this.warning("您还没有登陆");
         }else{
+            var $louzhu = $('.user').find('li:first'),
+                img = $louzhu.find('img').attr('src'),
+                name = $louzhu.text();
+            this.appendMsg({'status':'success', info:{'uid':this.userid, 'img':img, nickname:name, msg:msg}});
             socket.emit("message", {msg:msg, color:$('#fontcolor').val(), size:$("#fontsize").val()}, this.userid);
+            $("#msg").val("").focus();
         }
     },
 
@@ -154,7 +162,6 @@ var Chat = {
 
             $(".record").find('.list').append($content);
             this.scroll();
-            $("#msg").val("").focus();
         }else{
             this.warning("认证失败");
         }

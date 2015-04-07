@@ -183,6 +183,9 @@
     color: #ec2b8c;
     text-decoration: none;
 }
+.user li:first-child a{
+    color: #ec2b8c;
+}
 
 .layer{
 	position: fixed;
