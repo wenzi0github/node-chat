@@ -4,7 +4,7 @@ var express = require('express'), //引入express模块
     io = require('socket.io').listen(server);
 
 app.use('/', express.static(__dirname + '/www')); //指定静态HTML文件的位置
-server.listen(80);
+server.listen(3000);
 
 var User = {
     info : {},
