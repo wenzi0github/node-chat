@@ -161,6 +161,8 @@
 .user .list{
     background: #FDFCFC;
     padding: 4px;
+    max-height: 600px;
+    overflow: auto;
 }
 .user li{
     margin: 2px 0;
