@@ -69,7 +69,7 @@
     font-size: 15px;
 }
 .chat .info_msg .msg img{
-    max-width: 260px;
+    max-width: 174px;
 }
 .chat .louzhu .pic{
     float: right;
@@ -199,12 +199,10 @@
   	background: #333;
   	opacity: 0.7;
 }
-.layer .content{
+.content{
 	position: absolute;
-    width: 500px;
-    height: 300px;
     left: 50%;
-    top: 40%;
+    top: 50%;
     margin-left: -250px;
     margin-top: -100px;
   	line-height: 100px;
@@ -212,29 +210,47 @@
   	font-size: 24px;
   	text-align: center;
 }
-.layer .content .nickform{
+.content .nickform{
 	display: none;
 	line-height: 50px;
   	font-size: 18px;
 }
-.layer .portrait{
+.content .portrait{
     width: 384px;
     margin: 0 auto;
 }
-.layer .nickform li{
+.content .nickform li{
     float: left;
     margin-right: 10px;
     margin-bottom: 10px;
     border: 2px solid #eee;
 }
-.layer .nickform li:hover{
+.content .nickform li:hover{
     border: 2px solid #ec2b8c;
 }
-.layer .nickform .selected{
+.content .nickform .selected{
     border: 2px solid #ec2b8c;
 }
-.layer .nickform img{
+.content .nickform img{
     width: 50px;
     height: 50px;
     display: block;
+}
+
+.content .close{
+    position: absolute;
+  font-size: 23px;
+  font-weight: bold;
+  border: 1px solid #aaa;
+  padding: 6px;
+  height: 23px;
+  line-height: 23px;
+  width: 23px;
+  border-radius: 20px;
+  right: -12px;
+  top: -12px;
+  background: #fff;
+  color: #222;
+  z-index: 2;
+  cursor: pointer;
 }

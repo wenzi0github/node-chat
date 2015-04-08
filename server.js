@@ -1,10 +1,13 @@
 var express = require('express'), //引入express模块
     app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server);
+    io = require('socket.io').listen(server),
+    port = 3000;
 
 app.use('/', express.static(__dirname + '/www')); //指定静态HTML文件的位置
-server.listen(3000);
+server.listen(port);
+
+console.log("已监听"+port+"端口，系统正在运行...");
 
 var User = {
     info : {},
@@ -51,9 +54,9 @@ io.on('connection', function (socket) {
             var info = User.getInfo(userid);
             info.msg = '<div style="font-size:'+obj.size+'; color:'+obj.color+'">'+obj.msg+'</div>';
             info.time = hour+':'+minute;
-            socket.broadcast.emit('msg', { status:"success", info:info});
+            io.sockets.emit('msg', { status:"success", info:info});
         }else{
-            socket.broadcast.emit('msg', { status:"failure" });
+            io.sockets.emit('msg', { status:"failure" });
         }
         
     });
@@ -67,8 +70,9 @@ io.on('connection', function (socket) {
             socket.emit("loginSuccess", obj.uid);
 
             var s = {nickname:obj.nickname, user:User.info, len:User.getLength(), type:"login"};
-
             io.sockets.emit("system", s);
+            
+            console.log(obj.nickname+' 已接入');
         }
     });
 
@@ -78,6 +82,8 @@ io.on('connection', function (socket) {
             var nickname = User.info[uid].nickname;
             delete User.info[uid];
             socket.broadcast.emit('system', {user:{userid:uid, nickname:nickname}, type:"logout"})
+
+            console.log(nickname+' 已退出');
         }else{
 
         }

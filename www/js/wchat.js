@@ -11,6 +11,7 @@ socket.on("nickExisted", function(){
 socket.on("loginSuccess", function(userid){
     Chat.userid = userid;
     $(".layer").hide();
+    $("#content").hide();
     $("#msg").focus();
 });
 
@@ -91,12 +92,42 @@ $(function(){
             reader.onload = function(e) {
                 //读取成功，显示到页面并发送到服务器
                 $this.val('');
-                socket.emit('message', {msg:'<img src="'+e.target.result+'" alt="img">', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
+                var $img = $('<img src="'+e.target.result+'" alt="img">'),
+                    img = $img[0];
+
+                socket.emit('message', {msg:'<a href="javascript:;" class="msg_img"><img src="'+e.target.result+'" alt="img" data-width="'+img.width+'" data-height="'+img.height+'"></a>', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
                 // that._displayImage('me', e.target.result);
             };
             reader.readAsDataURL(file);
         };
     });
+
+    $(".list").delegate(".msg_img", "click", function(event){
+        var $img = $(this).find('img'),
+            $window = $(window),
+            src = $img.attr("src"),
+            width = $img.data("width"),
+            height = $img.data("height"),
+            wwidth = $window.width(),
+            wheight = $window.height(),
+            martop = 0,
+            marleft = 0;
+
+        var html = '<div style="width:'+width+'px; height:'+height+'px;"><div class="close">X</div><img src="'+src+'" alt="img" style="width:'+width+'px; height:'+height+'px;" /></div>';
+
+        marleft = width < wwidth ? width/2 : wwidth/2;
+        martop = height < wheight ? height/2 : wheight/2-14;
+
+        $("#content").html(html).css({"margin-top":-martop, "margin-left":-marleft}).show();
+        $(".layer").show();
+
+        event.preventDefault();
+    });
+
+    $("#content").delegate(".close", "click", function(){
+        $("#content").html("").hide();
+        $(".layer").hide();
+    })
 
     $("#fontsize").on("change", function(){
         $('.chat .send textarea').css({"font-size":$(this).val()});
@@ -142,12 +173,8 @@ var Chat = {
         if(this.userid==null){
             this.warning("您还没有登陆");
         }else{
-            var $louzhu = $('.user').find('li:first'),
-                img = $louzhu.find('img').attr('src'),
-                name = $louzhu.text();
-            this.appendMsg({'status':'success', info:{'uid':this.userid, 'img':img, nickname:name, msg:msg}});
-            socket.emit("message", {msg:msg, color:$('#fontcolor').val(), size:$("#fontsize").val()}, this.userid);
             $("#msg").val("").focus();
+            socket.emit("message", {msg:msg, color:$('#fontcolor').val(), size:$("#fontsize").val()}, this.userid);
         }
     },
 
