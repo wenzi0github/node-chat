@@ -65,11 +65,14 @@ $(function(){
         var $this = $(this);
         if($this.hasClass( 'selected' )){
             $(".font .fontlist").fadeOut();
+            $(".list").removeClass( 'showfont' );
             $this.removeClass( 'selected' );
         }else{
             $(".font .fontlist").fadeIn();
+            $(".list").addClass( 'showfont' );
             $this.addClass( 'selected' );
         }
+        Chat.scroll();
     });
 
     $("#fileupload").on("change", function(){

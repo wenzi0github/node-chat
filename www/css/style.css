@@ -12,6 +12,9 @@
     height: 440px;
     overflow: auto;
 }
+.record .showfont{
+    margin-bottom: 32px;
+}
 
 .record .notice{
 	background: #ccc;
