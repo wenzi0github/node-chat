@@ -132,6 +132,9 @@ $(function(){
     $("#fontsize").on("change", function(){
         $('.chat .send textarea').css({"font-size":$(this).val()});
     });
+    $("#fontcolor").on("change", function(){
+        $('.chat .send textarea').css({"color":$(this).val()});
+    });
 
     Chat.formImg(12);
 });
