@@ -113,7 +113,7 @@ $(function(){
             martop = 0,
             marleft = 0;
 
-        var html = '<div style="width:'+width+'px; height:'+height+'px;"><div class="close">X</div><img src="'+src+'" alt="img" style="width:'+width+'px; height:'+height+'px;" /></div>';
+        var html = '<div class="cbox" style="width:'+width+'px; height:'+height+'px;"><div class="close">X</div><img src="'+src+'" alt="img" style="width:'+width+'px; height:'+height+'px;" /></div>';
 
         marleft = width < wwidth ? width/2 : wwidth/2;
         martop = height < wheight ? height/2 : wheight/2-14;

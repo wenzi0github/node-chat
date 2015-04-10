@@ -237,6 +237,12 @@
     display: block;
 }
 
+.content .cbox{
+  width: 0px;
+  height: 0px;
+  border: 5px solid #ccc;
+  border-radius: 4px;
+}
 .content .close{
     position: absolute;
   font-size: 23px;
