@@ -42,4 +42,4 @@ Error: listen EACCES
     npm update <包名> 更新集成包，或更新package.json中所有的集成包  
 
 参考链接：   
-http://www.cnblogs.com/Wayou/p/hichat_built_with_nodejs_socket.html  
+http://www.xiabingbao.com/node/2015/04/06/node-socket/  
