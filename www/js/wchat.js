@@ -1,4 +1,123 @@
+var Chat = {
+    // 聊天内容
+    content : '<div class="item clearfix">'+
+    '<div class="pic fl">'+
+    '<img src="" alt="pic">'+
+    '</div>'+
+    '<div class="info_msg">'+
+    '<div class="info"><span class="name"></span><span class="timer"></span></div>'+
+    '<div class="msg"></div>'+
+    '</div>'+
+    '</div>',
+    $tips : $('<div class="tips clearfix"><div><em>!</em><span></span></div></div>'),
+
+    userid : null, // 当前用户
+    visible: true, // 用户是否离开当前标签页
+
+    warning : function(string){
+        this.$tips.find('span').html(string);
+        $(".record").find('.list').append(this.$tips);
+    },
+
+    // 发送消息
+    send : function(){
+        var msg = $.trim($("#msg").val());
+        if(msg===""){
+            return;
+        }
+        if(this.userid==null){
+            this.warning("您还没有登陆");
+        }else{
+            $("#msg").val("").focus();
+            socket.emit("message", {msg:msg, color:$('#fontcolor').val(), size:$("#fontsize").val()}, this.userid);
+        }
+    },
+
+    // 接收消息
+    appendMsg : function(result){
+        if(result.status=="success"){
+            var info = result.info;
+            var $content = $(this.content);
+
+            this.userid==info.uid && $content.addClass( 'louzhu' );
+            $content.find('img').attr('src', info.img);
+            $content.find('.name').html(info.nickname);
+            $content.find('.timer').html(info.time);
+            $content.find('.msg').html(info.msg);
+
+            $(".record").find('.list').append($content);
+            this.scroll();
+        }else{
+            this.warning("认证失败");
+        }
+    },
+
+    // 滚动条永远在最下
+    scroll : function(){
+        $(".record").scrollTop($(".record").find('.list').height());
+    },
+
+    // 登陆
+    login : function(){
+        var nickname = $("#nickname").val();
+        if(nickname===""){
+            return;
+        }
+        var $img = $(".portrait .selected").find("img");
+        socket.emit("login", {nickname:nickname, img:$img.attr("src")});
+        return false;
+    },
+
+    formImg:function(n){
+        var html = '',
+            n = n || 6;
+        for(var i=0; i<n; i++){
+            if(i==0){
+                html += '<li class="selected"><img src="./images/'+i+'.jpg" alt="pic"></li>';
+            }else{
+                html += '<li><img src="./images/'+i+'.jpg" alt="pic"></li>';
+            }
+        }
+        $(".portrait").html(html);
+    },
+
+    blinkTitle : function(title, timeout){
+        var self = this;
+        var timer = null;
+        var backup = document.title;
+
+        self.start = function(){
+            self.stop();
+
+            function blink(){
+                document.title = document.title == backup? self.title : backup;
+            }
+            blink();
+            timer = setInterval(blink, self.timeout);
+        }
+
+        self.stop = function(){
+            if(timer != null){
+                document.title = backup;
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        self.init = function(title, timeou){
+            if(title != undefined){
+                self.title = title;
+            }
+            self.timeout = timeout == undefined? 600: timeout;
+        }
+
+        self.init(title, timeout);
+    }
+}
+
 var socket = io.connect(null);
+var blink = new Chat.blinkTitle("【您有新消息...】", 800);
+
 socket.on("connect", function(){
     $("#content").find('.info').html('connect success').hide(function(){
         $("#content").find('.nickform').show();
@@ -34,13 +153,50 @@ socket.on("system", function(obj){
         $("#num").html(parseInt($("#num").html())-1);
     }
     Chat.scroll();
-});
 
+    if(!Chat.visible){
+        // blink.start();
+    }
+});
 socket.on("msg", function(result){
     Chat.appendMsg(result);
+
+    if(!Chat.visible){
+        blink.start();
+    }
 })
 
 $(function(){
+    // 各种浏览器兼容
+    var hidden, state, visibilityChange;
+    if (typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+        state = "visibilityState";
+    } else if (typeof document.mozHidden !== "undefined") {
+        hidden = "mozHidden";
+        visibilityChange = "mozvisibilitychange";
+        state = "mozVisibilityState";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+        state = "msVisibilityState";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+        state = "webkitVisibilityState";
+    }
+
+    // 添加监听器，在title里显示状态变化
+    document.addEventListener(visibilityChange, function() {
+        if(document[state]=="hidden"){
+            Chat.visible = false;
+        }else{
+            Chat.visible = true;
+            blink.stop();
+        }
+    }, false);
+
     $("#send").click(function(){
         Chat.send($("#msg").val());
     });
@@ -145,87 +301,4 @@ window.onbeforeunload = function(event){
     var msg = "是否要离开？";
     window.event.returnValue = msg;
     return msg;
-}
-
-var Chat = {
-    // 聊天内容
-    content : '<div class="item clearfix">'+
-                '<div class="pic fl">'+
-                    '<img src="" alt="pic">'+
-                '</div>'+
-                '<div class="info_msg">'+
-                    '<div class="info"><span class="name"></span><span class="timer"></span></div>'+
-                    '<div class="msg"></div>'+
-                '</div>'+
-            '</div>',
-    $tips : $('<div class="tips clearfix"><div><em>!</em><span></span></div></div>'),
-
-    userid : null, // 当前用户
-
-    warning : function(string){
-        this.$tips.find('span').html(string);
-        $(".record").find('.list').append(this.$tips);
-    },
-
-    // 发送消息
-    send : function(){
-        var msg = $.trim($("#msg").val());
-        if(msg===""){
-            return;
-        }
-        if(this.userid==null){
-            this.warning("您还没有登陆");
-        }else{
-            $("#msg").val("").focus();
-            socket.emit("message", {msg:msg, color:$('#fontcolor').val(), size:$("#fontsize").val()}, this.userid);
-        }
-    },
-
-    // 接收消息
-    appendMsg : function(result){
-        if(result.status=="success"){
-            var info = result.info;
-            var $content = $(this.content);
-
-            this.userid==info.uid && $content.addClass( 'louzhu' );
-            $content.find('img').attr('src', info.img);
-            $content.find('.name').html(info.nickname);
-            $content.find('.timer').html(info.time);
-            $content.find('.msg').html(info.msg);
-
-            $(".record").find('.list').append($content);
-            this.scroll();
-        }else{
-            this.warning("认证失败");
-        }
-    },
-
-    // 滚动条永远在最下
-    scroll : function(){
-        $(".record").scrollTop($(".record").find('.list').height());
-    },
-
-    // 登陆
-    login : function(){
-        var nickname = $("#nickname").val();
-        if(nickname===""){
-            return;
-        }
-        var $img = $(".portrait .selected").find("img");
-        socket.emit("login", {nickname:nickname, img:$img.attr("src")});
-        return false;
-    },
-
-    formImg:function(n){
-        var html = '',
-            n = n || 6;
-        for(var i=0; i<n; i++){
-            if(i==0){
-                html += '<li class="selected"><img src="./images/'+i+'.jpg" alt="pic"></li>';
-            }else{
-                html += '<li><img src="./images/'+i+'.jpg" alt="pic"></li>';
-            }
-        }
-        $(".portrait").html(html);
-    }
 }
