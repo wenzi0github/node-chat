@@ -61,6 +61,15 @@ io.on('connection', function (socket) {
         
     });
 
+    socket.on("shake", function(uid){
+        if(User.getInfo(uid)){
+            io.sockets.emit('system', { type:"shake", user : {nickname : User.info[uid].nickname} });
+        }else{
+            io.sockets.emit('msg', { status:"failure" });
+        }
+        
+    })
+
     socket.on("login", function(obj){
         if(User.hasExisted(obj.nickname)){
             socket.emit("nickExisted");

@@ -13,6 +13,17 @@ var Chat = {
 
     userid : null, // 当前用户
     visible: true, // 用户是否离开当前标签页
+    shake : {
+        num : 0,
+        next : 0,
+        getNext : function(timestamp){
+            this.num++;
+            this.next = timestamp + 5000*this.num;
+        },
+        getDiff : function(){
+            return 5000*this.num;
+        }
+    },
 
     warning : function(string){
         this.$tips.find('span').html(string);
@@ -61,7 +72,7 @@ var Chat = {
     login : function(){
         var nickname = $("#nickname").val();
         if(nickname===""){
-            return;
+            return false;
         }
         var $img = $(".portrait .selected").find("img");
         socket.emit("login", {nickname:nickname, img:$img.attr("src")});
@@ -151,6 +162,13 @@ socket.on("system", function(obj){
         $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 已退出</div>');
         $(".user").find('a[userid='+obj.user.userid+']').parent().remove();
         $("#num").html(parseInt($("#num").html())-1);
+    }else if(obj.type=='shake'){
+        $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 发送了一个震动</div>');
+
+        $('.main').addClass('shake');
+        setTimeout(function(){
+            $('.main').removeClass('shake');
+        }, 400);
     }
     Chat.scroll();
 
@@ -293,6 +311,34 @@ $(function(){
     });
 
     Chat.formImg(12);
+
+    $('.manager .shk').click(function(){
+        var $this = $(this);
+        var date = new Date();
+        var timestamp = date.getTime();
+
+        var diff = Chat.shake.next - timestamp;
+        if($this.children().hasClass('disable')){
+            if(diff>0){
+                Chat.warning('请 '+ (diff/1000).toFixed(1) +' 秒后执行下一次');
+                return;
+            }else{
+                $this.children().removeClass('disable');
+            }
+        }
+        
+        $this.children().addClass('disable');
+        
+        // 如果3分钟内没有发送震动，则时间间隔重置
+        if(diff>=300000){
+            Chat.shake.num = 0;
+        }
+        Chat.shake.getNext(timestamp);
+        setTimeout(function(){
+            $this.children().removeClass('disable');
+        }, Chat.shake.getDiff());
+        socket.emit('shake', Chat.userid);
+    });
 });
 
 window.onbeforeunload = function(event){

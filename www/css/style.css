@@ -1,9 +1,51 @@
 .main{
-    margin: 20px auto; 
+    /*margin: 20px auto; */
     width: 680px; 
     border: 1px solid #ddd;
     padding: 10px;
     background: #F9F9F9;
+    position: relative;
+    left: 50%;
+    margin-top: 20px;
+    margin-left: -340px;
+}
+.shake{
+    -webkit-animation : wobble 0.4s ease;
+    -moz-animation : wobble 0.4s ease;
+    -o-animation : wobble 0.4s ease;
+    animation : wobble 0.4s ease;
+}
+@-webkit-keyframes wobble{
+    0%{ margin-left: -330px; }
+    20%{ margin-left: -350px; }
+    40%{ margin-left: -330px; }
+    60%{ margin-left: -350px; }
+    80%{ margin-left: -330px; }
+    100%{ margin-left: -340px; }
+}
+@-moz-keyframes wobble{
+    0%{ margin-left: -330px; }
+    20%{ margin-left: -350px; }
+    40%{ margin-left: -330px; }
+    60%{ margin-left: -350px; }
+    80%{ margin-left: -330px; }
+    100%{ margin-left: -340px; }
+}
+@-o-keyframes wobble{
+    0%{ margin-left: -330px; }
+    20%{ margin-left: -350px; }
+    40%{ margin-left: -330px; }
+    60%{ margin-left: -350px; }
+    80%{ margin-left: -330px; }
+    100%{ margin-left: -340px; }
+}
+@keyframes wobble{
+    0%{ margin-left: -330px; }
+    20%{ margin-left: -350px; }
+    40%{ margin-left: -330px; }
+    60%{ margin-left: -350px; }
+    80%{ margin-left: -330px; }
+    100%{ margin-left: -340px; }
 }
 .record{
     background: #FDFCFC;
@@ -97,7 +139,7 @@
 .chat .manager .font{
     position: relative;
 }
-.chat .manager .font span{
+.chat .manager span{
     display: block;
     width: 23px;
     height: 23px;
@@ -106,10 +148,18 @@
     text-align: center;
     line-height: 23px;
     font-weight: bold;
+}
+.chat .manager span:hover{
+    border-color: #aaa;
+}
+.chat .manager .font span{
     font-size: 18px;
 }
-.chat .manager .font span:hover{
-    border-color: #aaa;
+.chat .manager .shk span{
+    font-size: 16px;
+}
+.chat .manager .shk .disable{
+    color: #888;
 }
 .chat .manager .font .selected{
     background: #ddd;
