@@ -166,9 +166,6 @@ socket.on("system", function(obj){
         $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 发送了一个震动</div>');
 
         $('.main').addClass('shake');
-        setTimeout(function(){
-            $('.main').removeClass('shake');
-        }, 400);
     }
     Chat.scroll();
 
@@ -337,6 +334,7 @@ $(function(){
         setTimeout(function(){
             $this.children().removeClass('disable');
         }, Chat.shake.getDiff());
+        $('.main').removeClass('shake');
         socket.emit('shake', Chat.userid);
     });
 });
