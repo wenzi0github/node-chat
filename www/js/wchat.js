@@ -266,7 +266,7 @@ $(function(){
                 var $img = $('<img src="'+e.target.result+'" alt="img">'),
                     img = $img[0];
 
-                socket.emit('message', {msg:'<a href="javascript:;" class="msg_img"><img src="'+e.target.result+'" alt="img" data-width="'+img.width+'" data-height="'+img.height+'"></a>', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
+                socket.emit('message', {msg:'<a href="javascript:;" class="msg_img" title="点击查看原图"><img src="'+e.target.result+'" alt="img" data-width="'+img.width+'" data-height="'+img.height+'"></a>', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
                 // that._displayImage('me', e.target.result);
             };
             reader.readAsDataURL(file);
