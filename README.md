@@ -2,6 +2,29 @@
 
 虽然是实现的即时聊天，其实这个形式可以应用到更多的地方。比如服务器向用户实时推送消息，向某个或某些用户推送消息等。  
 
+####2015/04/28 更新 
+今天为聊天窗口添加了`发送窗口震动功能`。
+震动效果是使用CSS3的`animation`实现的： 
+
+```css
+.shake{
+    -webkit-animation : wobble 0.4s ease;
+    -moz-animation : wobble 0.4s ease;
+    -o-animation : wobble 0.4s ease;
+    animation : wobble 0.4s ease;
+}
+@-webkit-keyframes wobble{
+    0%{ margin-left: -330px; }
+    20%{ margin-left: -350px; }
+    40%{ margin-left: -330px; }
+    60%{ margin-left: -350px; }
+    80%{ margin-left: -330px; }
+    100%{ margin-left: -340px; }
+}
+/* ... */
+```
+用户点击发送震动按钮后，给聊天窗口添加`.shake`，使窗口触发CSS3的动画。同时，由于窗口震动会比较引起反感，影响正常的聊天功能，因此为震动按钮添加了时间间隔的限制，每次点击发送震动按钮后，时间间隔都会增加5s。不过，如果用户在3分钟内没有发送震动的话，时间间隔会置为0，重新开始。
+
 ####2015/04/19 更新 
 今天添加了消息提醒的功能：当用户切换到其他标签页浏览器时，如果有别的用户发送过来消息，title就进行闪动，提示当前用户有新消息。
 
