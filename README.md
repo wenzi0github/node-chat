@@ -2,6 +2,18 @@
 
 虽然是实现的即时聊天，其实这个形式可以应用到更多的地方。比如服务器向用户实时推送消息，向某个或某些用户推送消息等。  
 
+####2015/05/19 更新  
+前几天弄在线简历的时候，发现html5里有两个属性能够获取图片的原始尺寸。以前，如果图片没有被压缩或者放大，正常展示时比较方便的获取图片的正常尺寸，可是如果设置了其他的尺寸，那就稍微的麻烦一些，得使用`new Image()`才能获取图片的原始尺寸。  
+
+现在通过html5的naturalWidth和naturalHeight直接就能获取到图片的原始尺寸了，不管图片怎么被压缩和放大。  
+
+```javascript
+var img = document.getElementsByTagName('img');
+var width = img.naturalWidth,
+    height = img.naturalHeight;
+console.log('原始宽:'+width+' ,原始高:'+height);
+```
+
 ####2015/04/28 更新 
 今天为聊天窗口添加了`发送窗口震动`功能。 
 震动效果是使用CSS3的`animation`实现的： 
