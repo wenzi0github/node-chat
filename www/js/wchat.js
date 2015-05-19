@@ -263,11 +263,7 @@ $(function(){
             reader.onload = function(e) {
                 //读取成功，显示到页面并发送到服务器
                 $this.val('');
-                var $img = $('<img src="'+e.target.result+'" alt="img">'),
-                    img = $img[0];
-
-                socket.emit('message', {msg:'<a href="javascript:;" class="msg_img" title="点击查看原图"><img src="'+e.target.result+'" alt="img" data-width="'+img.width+'" data-height="'+img.height+'"></a>', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
-                // that._displayImage('me', e.target.result);
+                socket.emit('message', {msg:'<a href="javascript:;" class="msg_img" title="点击查看原图"><img src="'+e.target.result+'" alt="img"></a>', color:$('#fontcolor').val(), size:$("#fontsize").val()}, Chat.userid);
             };
             reader.readAsDataURL(file);
         };
@@ -277,8 +273,8 @@ $(function(){
         var $img = $(this).find('img'),
             $window = $(window),
             src = $img.attr("src"),
-            width = $img.data("width"),
-            height = $img.data("height"),
+            width = $img[0].naturalWidth,
+            height = $img[0].naturalHeight,
             wwidth = $window.width(),
             wheight = $window.height(),
             martop = 0,
@@ -289,16 +285,22 @@ $(function(){
         marleft = width < wwidth ? width/2 : wwidth/2;
         martop = height < wheight ? height/2 : wheight/2-14;
 
-        $("#content").html(html).css({"margin-top":-martop, "margin-left":-marleft}).show();
+        $("#content").html(html).css({"margin-top":-martop, "margin-left":-marleft}).stop().fadeIn();
         $(".layer").show();
 
         event.preventDefault();
     });
 
-    $("#content").delegate(".close", "click", function(){
-        $("#content").html("").hide();
-        $(".layer").hide();
+    $('.layer, #content').on('click', function(){
+        if($('#content').find('.close').length){
+            $("#content").stop().fadeOut();
+            $(".layer").stop().fadeOut();
+        }
     })
+    // $("#content").on("click", ".close", function(){
+    //     $("#content").stop().fadeOut();
+    //     $(".layer").hide();
+    // })
 
     $("#fontsize").on("change", function(){
         $('.chat .send textarea').css({"font-size":$(this).val()});
