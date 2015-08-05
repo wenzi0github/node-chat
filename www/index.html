@@ -9,9 +9,12 @@
 <body>
     <div class="main clearfix">
         <div class="chat fl">
+            <!-- 聊天窗口 -->
             <div class="record">
                 <div class="list clearfix"></div>
             </div>
+
+            <!-- 小工具：文字颜色，文字大小，发送图片，震动 -->
             <div class="manager clearfix">
                 <div class="font cc">
                     <span>A</span>
@@ -40,11 +43,15 @@
                     <span title="发送震动">震</span>
                 </div>
             </div>
+
+            <!-- 发送消息 -->
             <div class="send">
                 <textarea name="" id="msg"></textarea>
                 <input type="button" class="btn" id="send" value="发送">
             </div>
         </div>
+
+        <!-- 在线用户列表 -->
         <div class="user fr">
             <div>在线人数：<span id="num">0</span></div>
             <div class="list">
@@ -52,6 +59,8 @@
             </div>
         </div>
     </div>
+
+    <!-- 登录弹窗 -->
     <div class="layer"></div>
     <div class="content" id="content">
         <div class="info">

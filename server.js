@@ -41,6 +41,7 @@ var User = {
 另外，上面代码中，io表示服务器整个socket连接，所以代码io.sockets.emit('foo')表示所有人都可以收到该事件。
 */
 io.on('connection', function (socket) {
+    // 接收用户发送的消息，并分发给其他在线用户
     socket.on("message", function(obj, userid){
         var date = new Date(),
             hour = date.getHours(),
@@ -61,6 +62,7 @@ io.on('connection', function (socket) {
         
     });
 
+    // 用户发送震动
     socket.on("shake", function(uid){
         if(User.getInfo(uid)){
             io.sockets.emit('system', { type:"shake", user : {nickname : User.info[uid].nickname} });
@@ -70,6 +72,7 @@ io.on('connection', function (socket) {
         
     })
 
+    // 新用户登录
     socket.on("login", function(obj){
         if(User.hasExisted(obj.nickname)){
             socket.emit("nickExisted");
@@ -85,6 +88,7 @@ io.on('connection', function (socket) {
         }
     });
 
+    // 用户退出
     socket.on("disconnect", function(){
         var uid = socket.id;
         if(User.getInfo(uid)){

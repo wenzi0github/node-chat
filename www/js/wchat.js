@@ -13,9 +13,11 @@ var Chat = {
 
     userid : null, // 当前用户
     visible: true, // 用户是否离开当前标签页
+    
+    // 聊天窗口震动
     shake : {
-        num : 0,
-        next : 0,
+        num : 0,    // 震动次数
+        next : 0,   // 下次震动的时间
         getNext : function(timestamp){
             this.num++;
             this.next = timestamp + 5000*this.num;
@@ -25,6 +27,7 @@ var Chat = {
         }
     },
 
+    // 警告提示
     warning : function(string){
         this.$tips.find('span').html(string);
         $(".record").find('.list').append(this.$tips);
@@ -79,6 +82,7 @@ var Chat = {
         return false;
     },
 
+    // 新用户登录时展示要选择的头像
     formImg:function(n){
         var html = '',
             n = n || 6;
@@ -92,6 +96,7 @@ var Chat = {
         $(".portrait").html(html);
     },
 
+    // 新消息到来时的title闪烁
     blinkTitle : function(title, timeout){
         var self = this;
         var timer = null;
@@ -145,8 +150,10 @@ socket.on("loginSuccess", function(userid){
     $("#msg").focus();
 });
 
+// 接收到系统消息
 socket.on("system", function(obj){
     if(obj.type=='login'){
+        // 新用户登录提示，同时更新在线用户列表
         var html = '',
             $ul = $(".user").find('ul'),
             user = obj.user;
@@ -159,23 +166,29 @@ socket.on("system", function(obj){
         $ul.prepend($ul.find('a[userid='+Chat.userid+']').parent().remove());
         $("#num").html(obj.len);
     }else if(obj.type==='logout'){
+        // 用户登出提示，同时更新在线用户列表
         $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 已退出</div>');
         $(".user").find('a[userid='+obj.user.userid+']').parent().remove();
         $("#num").html(parseInt($("#num").html())-1);
     }else if(obj.type=='shake'){
+        // 震动提示
         $(".record").find('.list').append('<div class="notice">'+obj.user.nickname+' 发送了一个震动</div>');
 
         $('.main').addClass('shake');
     }
+    // 滚动条向下滚动
     Chat.scroll();
 
     if(!Chat.visible){
         // blink.start();
     }
 });
-socket.on("msg", function(result){
-    Chat.appendMsg(result);
 
+// 接收到其他用户发来的消息
+socket.on("msg", function(result){
+    Chat.appendMsg(result); // 显示消息
+
+    // 若用户查看的不是当前标签页面，则标题进行闪动
     if(!Chat.visible){
         blink.start();
     }
@@ -212,15 +225,18 @@ $(function(){
         }
     }, false);
 
+    // 发送消息
     $("#send").click(function(){
         Chat.send($("#msg").val());
     });
 
+    // 新用户选择头像
     $(".portrait").delegate("li", "click", function(){
         var $this = $(this);
         $(this).addClass("selected").siblings().removeClass("selected");
     })
 
+    // ctrl+enter发送消息
     $("#msg").keydown(function(e){
         var code = e.charCode || e.which || e.keyCode;
         var msg = $("#msg").val();
@@ -233,6 +249,7 @@ $(function(){
         }
     });
 
+    // 小工具的显示与隐藏
     $(".font span").on("click", function(){
         var $this = $(this);
         if($this.hasClass( 'selected' )){
@@ -247,6 +264,7 @@ $(function(){
         Chat.scroll();
     });
 
+    // 发送图片
     $("#fileupload").on("change", function(){
         //检查是否有文件被选中
         var $this = $(this),
@@ -269,6 +287,7 @@ $(function(){
         };
     });
 
+    // 点击发送的图片查看原图
     $(".list").delegate(".msg_img", "click", function(event){
         var $img = $(this).find('img'),
             $window = $(window),
@@ -311,6 +330,7 @@ $(function(){
 
     Chat.formImg(12);
 
+    // 发送震动
     $('.manager .shk').click(function(){
         var $this = $(this);
         var date = new Date();
@@ -341,6 +361,7 @@ $(function(){
     });
 });
 
+// 当页面卸载前的提示
 window.onbeforeunload = function(event){
     event = event || window.event;
     
